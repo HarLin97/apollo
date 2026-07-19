@@ -58,11 +58,12 @@ public class ConfigServiceAutoConfigurationTest {
   }
 
   @Test
-  public void testClientAuthenticationFilterShouldCoverNotificationV2ExactPath() {
+  public void testClientAuthenticationFilterShouldCoverNotificationPaths() {
     FilterRegistrationBean<ClientAuthenticationFilter> filterRegistrationBean =
         configServiceAutoConfiguration.clientAuthenticationFilter(accessKeyUtil);
 
-    assertThat(filterRegistrationBean.getUrlPatterns()).containsAll(
-        Arrays.asList("/configs/*", "/configfiles/*", "/notifications/v2", "/notifications/v2/*"));
+    assertThat(filterRegistrationBean.getUrlPatterns())
+        .containsAll(Arrays.asList("/configs/*", "/configfiles/*", "/notifications",
+            "/notifications/*", "/notifications/v2", "/notifications/v2/*"));
   }
 }

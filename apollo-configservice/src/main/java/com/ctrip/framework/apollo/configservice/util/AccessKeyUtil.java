@@ -36,7 +36,7 @@ public class AccessKeyUtil {
   private static final String URL_CONFIGFILES_JSON_PREFIX = "/configfiles/json/";
   private static final String URL_CONFIGFILES_RAW_PREFIX = "/configfiles/raw/";
   private static final String URL_CONFIGFILES_PREFIX = "/configfiles/";
-  private static final String URL_NOTIFICATIONS_PREFIX = "/notifications/v2";
+  private static final String URL_NOTIFICATIONS_PREFIX = "/notifications";
 
   private final AccessKeyServiceWithCache accessKeyServiceWithCache;
 
@@ -64,7 +64,7 @@ public class AccessKeyUtil {
       appId = StringUtils.substringBetween(servletPath, URL_CONFIGFILES_RAW_PREFIX, URL_SEPARATOR);
     } else if (StringUtils.startsWith(servletPath, URL_CONFIGFILES_PREFIX)) {
       appId = StringUtils.substringBetween(servletPath, URL_CONFIGFILES_PREFIX, URL_SEPARATOR);
-    } else if (StringUtils.startsWith(servletPath, URL_NOTIFICATIONS_PREFIX)) {
+    } else if (isNotificationRequest(servletPath)) {
       appId = request.getParameter("appId");
     }
 
@@ -85,5 +85,10 @@ public class AccessKeyUtil {
       return null;
     }
     return appId;
+  }
+
+  private boolean isNotificationRequest(String servletPath) {
+    return StringUtils.equals(servletPath, URL_NOTIFICATIONS_PREFIX)
+        || StringUtils.startsWith(servletPath, URL_NOTIFICATIONS_PREFIX + URL_SEPARATOR);
   }
 }
